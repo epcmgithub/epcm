@@ -1,5 +1,6 @@
 require_relative 'boot'
 require 'rails/all'
+require 'sprockets/railtie'
 require "google/apis/sheets_v4"
 require "googleauth"
 require "googleauth/stores/file_token_store"
@@ -14,5 +15,6 @@ module Epcm
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    config.assets.initialize_on_precompile = false
   end
 end
