@@ -1,0 +1,30 @@
+<style>
+	form{
+		display: grid;
+	}
+</style>
+<% if @credentials.present? %>
+	<div class="d-flex justify-content-center logo">
+		<%= image_tag image_url('logo.png'), width: "40%" ,class: "img-top center"%>
+	</div>
+    <div class="row">
+        <div class="col-md-4 offset-md-4" >
+			<%= form_tag '/download_report.pdf' , method: :get do |form| %>
+				<%#= text_field_tag :tags, '' , class: "form-control" %>
+				<%= select_tag "tags", raw("<option></option>") , class: "tags", multiple: true %>
+				<small class="form-text text-muted">Separate tags with a comma, space bar, or enter key.</small>
+				<br>
+				<%= button_tag "Download Pdf" , class: "btn btn-primary" %>
+			<% end %>
+        </div>
+    </div>
+    <%#= link_to 'Create PDF document', download_report_path(tags: "research", :format => :pdf) %>
+<% else %>
+    <%= link_to "Connect Googlesheet" , connect_google_sheets_path %>
+<% end %>
+<script>
+	$(".tags").select2({
+    tags: true,
+    tokenSeparators: [',', ' ']
+	});
+</script>

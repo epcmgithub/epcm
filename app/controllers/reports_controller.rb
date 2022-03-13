@@ -1,0 +1,70 @@
+class ReportsController < ApplicationController
+    before_action :authenticate_user!
+    before_action :set_authorizer
+    def index
+        @credentials = @authorizer.get_credentials @user_id
+        if @credentials.blank?
+            if params[:code].present? && params[:code].size > 50 
+                    @credentials = @authorizer.get_and_store_credentials_from_code(
+                        user_id: @user_id, code: params[:code], base_url: ENV['OOB_URI'])
+            end
+        end
+    end
+    def connect_google_sheets
+        credentials = @authorizer.get_credentials @user_id
+        if credentials.nil?       
+            url = @authorizer.get_authorization_url base_url: ENV['OOB_URI']
+            redirect_to url
+        else
+            redirect_to root_path
+        end
+    end
+    #a b c d e f g h i j k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  Z
+    #0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+    def download_report
+        tags = params[:tags]
+        credentials = @authorizer.get_credentials @user_id
+        service = Google::Apis::SheetsV4::SheetsService.new
+        service.client_options.application_name = ENV['APPLICATION_NAME']
+        service.authorization = credentials
+        range = "Copy of Master!A2:Z"
+        response = service.get_spreadsheet_values ENV['spreadsheet_id'], range
+        @projects = []
+        response.values.each do |row|
+            row[1].to_s.split(',').each do |tag|  
+                if tag.in?(tags)
+                    report = Report.new(row[0], row[4], row[3], row[9], row[21], row[10] ,row[11] ,row[13] ,row[12] ,row[15] ,row[14] ,row[7] ,row[5] ,row[6])
+                    @projects << report
+                    break
+                end
+            end
+        end
+        respond_to do |format|
+            format.pdf do
+                @pdf = render_to_string(
+                pdf: "file_name.pdf",
+                template: "reports/show.html.erb",
+                layout: 'pdf.html.erb',
+                page_size: 'Letter',
+                header: {html: {template: 'reports/_header'}},
+                footer: {html: {template: 'reports/_footer'}},
+                show_as_html: true)
+                send_data(@pdf, filename: "projects_report.pdf")
+            end
+            format.html do 
+                render "reports/show.html.erb"
+            end
+        end
+         
+
+    end
+
+    private
+    def set_authorizer
+        scope = Google::Apis::SheetsV4::AUTH_SPREADSHEETS_READONLY
+        client_id = Google::Auth::ClientId.from_file ENV['CREDENTIALS_PATH']
+        token_store = Google::Auth::Stores::FileTokenStore.new file: ENV['TOKEN_PATH']
+        @authorizer = Google::Auth::UserAuthorizer.new client_id, scope, token_store
+        @user_id = "default"
+    end
+end
