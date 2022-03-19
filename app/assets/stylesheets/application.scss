@@ -17,8 +17,8 @@
  @import "select2";
 
  body{
-    background-image: url(/assets/background.jpg);
+    background-image: url('background.jpg');
     margin: 20px;
-    // background-repeat: no-repeat;
-    // background-size: auto;
+    font-family: Verdana, sans-serif; font-variant: normal;
  }
+ 

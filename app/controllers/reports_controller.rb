@@ -9,6 +9,20 @@ class ReportsController < ApplicationController
                         user_id: @user_id, code: params[:code], base_url: ENV['OOB_URI'])
             end
         end
+        if @credentials.present?
+            service = Google::Apis::SheetsV4::SheetsService.new
+            service.client_options.application_name = ENV['APPLICATION_NAME']
+            service.authorization = @credentials
+            range = "Copy of Master!A2:Z"
+            response = service.get_spreadsheet_values ENV['spreadsheet_id'], range
+            @@reports = []
+            @found_tags = []
+            response.values.each do |row|
+                row[1].to_s.split(/[,;\s]/).each {|tag| @found_tags << tag unless tag.in?(@found_tags)}
+                report = Report.new(row[1], row[0], row[4], row[3], row[9], row[21], row[10] ,row[11] ,row[13] ,row[12] ,row[15] ,row[14] ,row[7] ,row[5] ,row[6])
+                @@reports << report
+            end
+        end
     end
     def connect_google_sheets
         credentials = @authorizer.get_credentials @user_id
@@ -23,18 +37,12 @@ class ReportsController < ApplicationController
     #0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
     def download_report
         tags = params[:tags]
-        credentials = @authorizer.get_credentials @user_id
-        service = Google::Apis::SheetsV4::SheetsService.new
-        service.client_options.application_name = ENV['APPLICATION_NAME']
-        service.authorization = credentials
-        range = "Copy of Master!A2:Z"
-        response = service.get_spreadsheet_values ENV['spreadsheet_id'], range
-        @projects = []
-        response.values.each do |row|
-            row[1].to_s.split(',').each do |tag|  
-                if tag.in?(tags)
-                    report = Report.new(row[0], row[4], row[3], row[9], row[21], row[10] ,row[11] ,row[13] ,row[12] ,row[15] ,row[14] ,row[7] ,row[5] ,row[6])
-                    @projects << report
+        @printing_reports = []
+        @@reports.each do |report|
+            report_tags = report.get_tags
+            report_tags.each do |report_tag|
+                if report_tag.in?(tags)
+                    @printing_reports << report
                     break
                 end
             end
@@ -44,19 +52,22 @@ class ReportsController < ApplicationController
                 @pdf = render_to_string(
                 pdf: "file_name.pdf",
                 template: "reports/show.html.erb",
+                #locals:  {report: @@reports.first},
                 layout: 'pdf.html.erb',
                 page_size: 'Letter',
-                header: {html: {template: 'reports/_header'}},
+                # header: {html: {template: 'reports/_header'}},
                 footer: {html: {template: 'reports/_footer'}},
-                show_as_html: true)
+                show_as_html: true,
+                margin:  {  top:               0,                     # default 10 (mm)
+                            left:              0,
+                            right:             0})
+
                 send_data(@pdf, filename: "projects_report.pdf")
             end
             format.html do 
                 render "reports/show.html.erb"
             end
         end
-         
-
     end
 
     private

@@ -1,10 +1,12 @@
 <style>
     table {
-    font-family: arial, sans-serif;
     width: 100%;
+    border: 1px solid white;
     }
     td{
-        height: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        width: 200px;
     }
     div.alwaysbreak { page-break-before: always; }
     .project-name{
@@ -20,7 +22,7 @@
         font-weight: bold;
     }
     .img-top{
-        float:right;
+        
         margin-left: 500px;
     }
     .footer-top{
@@ -31,50 +33,66 @@
         padding-right: 150px;
     }
     
-    table {border: none;}
+    .container{
+        /* margin: 0 10px 0 10px; */
+        width: 90%;
+    }
+    p{
+        line-height: 1.6;
+    }
 </style>
-<% @projects.each_with_index do |report, index| %>
-    <div class="<%=index > 0 ? 'alwaysbreak' : ''%>">
-        <%= image_tag image_url('logo.png'), width: "40%" ,class: "img-top"%>
-        <div class="container">
-            <div class="blue-text bold-text"><h1><%= report.project_name.to_s %></h1></div>
-            <table cellspacing="0" cellpadding="0">
-                <tr>
-                    <td class="blue-text bold-text">Client</td>
-                    <td><%= report.client.to_s %></td>
-                    <td class="blue-text bold-text">Client Details</td>
-                    <td><%= report.client_contact_details.to_s %></td>
-                </tr>
-                <tr>
-                    <td class="blue-text bold-text">Location</td>
-                    <td><%= report.region_location.to_s %></td>
-                    <td class="blue-text bold-text">Start & Completion date</td>
-                    <td><%= report.start_date.to_s + "-" + report.end_date.to_s%></td>
-                </tr>
-                <tr>
-                    <td class="blue-text bold-text">Project Value USD</td>
-                    <td><%= report.project_value_us.to_s %></td>
-                    <td class="blue-text bold-text">Project Value ZAR</td>
-                    <td><%= report.project_value_zar %></td>
-                </tr>
-                <tr>
-                    <td class="blue-text bold-text">Contract Value USD</td>
-                    <td><%= report.contract_value_us.to_s %></td>
-                    <td class="blue-text bold-text">Contract Value ZAR</td>
-                    <td><%= report.contract_value_zar.to_s %></td>
-                </tr>
-            </table>
+    <% @printing_reports.each_with_index do |report, index| %>
+        <div class="<%=index > 0 ? 'alwaysbreak' : ''%>">
+            <%= image_tag image_url('logo.png'), width: "40%" ,class: "img-top"%>
             <br>
             <br>
+            <div class="container">
+                <h1 class="blue-text bold-text"><%= report.project_name.to_s %></h1>
+                <br>
+                <table cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="blue-text bold-text">Client</td>
+                        <td><%= report.client.to_s %></td>
+                        <td class="blue-text bold-text">Client Details</td>
+                        <td><%= report.client_contact_details.to_s %></td>
+                    </tr>
+                    <tr>
+                        <td class="blue-text bold-text">Location</td>
+                        <td><%= report.region_location.to_s %></td>
+                        <td class="blue-text bold-text">Start & Completion date</td>
+                        <td><%= report.start_date.to_s + "-" + report.end_date.to_s%></td>
+                    </tr>
+                    <tr>
+                        <td class="blue-text bold-text">Project Value USD</td>
+                        <td><%= report.project_value_us.to_s %></td>
+                        <td class="blue-text bold-text">Project Value ZAR</td>
+                        <td><%= report.project_value_zar %></td>
+                    </tr>
+                    <tr>
+                        <td class="blue-text bold-text">Contract Value USD</td>
+                        <td><%= report.contract_value_us.to_s %></td>
+                        <td class="blue-text bold-text">Contract Value ZAR</td>
+                        <td><%= report.contract_value_zar.to_s %></td>
+                    </tr>
+                    <tr>
+                        <td class="blue-text bold-text">Ptoject No</td>
+                        <td><%= report.project_no.to_s %></td>
+                        <td class="blue-text bold-text"></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <br>
+                <br>
+                
+                <!-- <h3 class="blue-text"><%= report.summary.to_s %></h3>
+                <br> -->
+                <h3 class="blue-text bold-text">Description of the project:</h3>
+                <p><%= report.description.to_s %></p>
+                <br>
+                <br>
+                <h3 class="blue-text bold-text">Services provided:</h3>
+                <p><%= report.scope_of_services.to_s %></p>
+            </div>
             
-            <h3 class="blue-text"><%= report.summary.to_s %></h3>
-            <br>
-            <h4 class="blue-text bold-text">Description of the project:</h4>
-            <%= report.description.to_s %>
-            <br>
-            <br>
-            <h4 class="blue-text bold-text">Services provided:</h4>
-            <%= report.scope_of_services.to_s %>
         </div>
-    </div>
-<% end %>
+    <% end %>

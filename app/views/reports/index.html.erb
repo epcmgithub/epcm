@@ -6,12 +6,15 @@
 <% if @credentials.present? %>
 	<div class="d-flex justify-content-center logo">
 		<%= image_tag image_url('logo.png'), width: "40%" ,class: "img-top center"%>
+		<%#= image_tag image_url('https://drive.google.com/uc?export=view&id=16ERFVDpBcXnstoZALGdsdAtpWdkSdWLY'), width: "40%" ,class: "img-top center"%>
+		<%#= image_tag image_url('https://drive.google.com/uc?export=view&id=17nn19PF_U68nkHxIjTVfFDBZjdsBWryu'), width: "40%" ,class: "img-top center"%>
+		
 	</div>
     <div class="row">
         <div class="col-md-4 offset-md-4" >
 			<%= form_tag '/download_report.pdf' , method: :get do |form| %>
 				<%#= text_field_tag :tags, '' , class: "form-control" %>
-				<%= select_tag "tags", raw("<option></option>") , class: "tags", multiple: true %>
+				<%= select_tag "tags", options_for_select(@found_tags) , class: "tags", multiple: true %>
 				<small class="form-text text-muted">Separate tags with a comma, space bar, or enter key.</small>
 				<br>
 				<%= button_tag "Download Pdf" , class: "btn btn-primary" %>
@@ -24,7 +27,7 @@
 <% end %>
 <script>
 	$(".tags").select2({
-    tags: true,
-    tokenSeparators: [',', ' ']
+    //tags: true,
+    //tokenSeparators: [',', ' ']
 	});
 </script>
