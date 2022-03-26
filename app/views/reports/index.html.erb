@@ -14,10 +14,13 @@
         <div class="col-md-4 offset-md-4" >
 			<%= form_tag '/download_report.pdf' , method: :get do |form| %>
 				<%#= text_field_tag :tags, '' , class: "form-control" %>
+				<%= hidden_field_tag :download_type, "" %>
 				<%= select_tag "tags", options_for_select(@found_tags) , class: "tags", multiple: true %>
 				<small class="form-text text-muted">Separate tags with a comma, space bar, or enter key.</small>
 				<br>
-				<%= button_tag "Download Pdf" , class: "btn btn-primary" %>
+				<%= button_tag "Download Reports" , class: "btn btn-primary" , id: "reports-btn"%>
+				<br>
+				<%= button_tag "Download Experience" , class: "btn btn-primary", id: "experience-btn" %>
 			<% end %>
         </div>
     </div>
@@ -26,8 +29,12 @@
     <%= link_to "Connect Googlesheet" , connect_google_sheets_path %>
 <% end %>
 <script>
-	$(".tags").select2({
-    //tags: true,
-    //tokenSeparators: [',', ' ']
+	$(".tags").select2({});
+
+	$("#reports-btn").click(function(){
+		$("#download_type").val("reports");
+	});
+	$("#experience-btn").click(function(){
+		$("#download_type").val("experience");
 	});
 </script>
