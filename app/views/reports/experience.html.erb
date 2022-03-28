@@ -38,12 +38,15 @@
     
     }
 </style>
-        
+       
             <div class="container">
+                <!--    
                     <h1 class="blue-text bold-text experience">Experience</h1>
                     <br>
                     <p class="as-part">As part of the EPCM team, the company has performed the following similar previous projects:</p>
+                -->
                 <table cellspacing="0" cellpadding="0" style="width: 1225px;">
+                    <!--
                     <tr>
                         <th style="width: 212px;">Project Name / Client</th>
                         <th style="width: 180px;">Project Location</th>
@@ -52,6 +55,7 @@
                         <th style="width: 133px;">Contract</th>
                         <th style="width: 70px;">Year</th>
                     <tr>
+                    -->
                     <% @printing_reports.each_with_index do |report, index| %>
                         <% if report.end_date.present? %>
                             <% year_text = report.start_date.to_s + " - " + report.end_date.to_s %>
@@ -61,12 +65,12 @@
                             <% year_text = "" %>
                         <% end %>
                         <tr>
-                            <td><%= report.project_name.to_s %></td>
-                            <td><%= report.region_location.to_s %></td>
-                            <td><%= report.description.to_s %></td>
-                            <td><%= report.project_value_us.to_s %></td>
-                            <td><%= report.contract.to_s %></td>
-                            <td><%= year_text %></td>
+                            <td style="width: 212px;"><%= report.project_name.to_s %></td>
+                            <td style="width: 180px;"><%= report.region_location.to_s %></td>
+                            <td style="width: 410px;"><%= report.description.to_s %></td>
+                            <td style="width: 143px;"><%= report.project_value_us.to_s %></td>
+                            <td style="width: 133px;"><%= report.contract.to_s %></td>
+                            <td style="width: 70px;"><%= year_text %></td>
                         <tr>
                     <% end %>
                 </table>
@@ -75,4 +79,12 @@
             </div>
             
        
-    
+    <script type="text/javascript">
+    // var headerCheck = function() {
+      var x=document.location.search.substring(1).split('&');
+      for (var i in x) {
+        if(x[i] == "page=1")
+          document.getElementsByClassName("headerContent")[0].style.display = "block";
+       }
+    //  }();
+</script>

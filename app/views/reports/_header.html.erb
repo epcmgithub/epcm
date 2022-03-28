@@ -5,9 +5,83 @@
         width: 13%;
         margin-left: 160px;
     }
+    table {
+    width: 100%;
+    /* border: 1px solid white; */
+    }
+    th{
+        text-align: left;
+        background-color: #AEAAAA;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    td{
+        vertical-align: text-top;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .container{
+        margin-left: 40px;
+    }
+    .blue-text{
+        color: #2C5075;
+    }
+    .bold-text{
+        font-weight: bold;
+    }
+    .experience{
+        margin-left: 85px;
+    }
+    .as-part{
+        margin-left: 23px;
+    }
+    div.alwaysbreak { page-break-before: always; }
+    .project-name{
+    
+    }
 </style>
+
+<html>
+  <head>
+    <script>
+      function number_pages() {
+        //document.getElementsByClassName("abc")[0].innerHTML += " hahaha";
+        var x=document.location.search.substring(1).split('&');
+        if (x.toString().search("page=1") == 0){
+            //document.getElementsByClassName("first_page")[0].style.display = 'block';
+            document.getElementsByClassName("first_page")[0].innerHTML += '<h1 class="blue-text bold-text experience">Experience</h1><br><br><br><br><br><p class="as-part">As part of the EPCM team, the company has performed the following similar previous projects:</p>'
+        }
+        else{
+            document.getElementsByClassName("body-cls")[0].style.marginTop = '-40px';
+        }
+      }
+    </script>
+  </head>
+  <body class="body-cls" onload="number_pages()">
+  
+
+
+
 <%= image_tag image_url('logo.png'), class: "footer-bottom" %>
-<br>
-<br>
-<br>
-<br>
+
+<div class="first_page">
+
+</div>
+
+                <table cellspacing="0" cellpadding="0" style="width: 1225px;">
+                    <tr>
+                        <th style="width: 212px;">Project Name / Client</th>
+                        <th style="width: 180px;">Project Location</th>
+                        <th style="width: 410px;">Summary Description</th>
+                        <th style="width: 143px;">Project Value</th>
+                        <th style="width: 133px;">Contract</th>
+                        <th style="width: 70px;">Year</th>
+                    <tr>
+                </table>
+
+</body>
+</html>

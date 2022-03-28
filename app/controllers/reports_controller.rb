@@ -48,6 +48,7 @@ class ReportsController < ApplicationController
     end
 
     def download_report
+        @first_page = true
         if params[:download_type] == 'reports'
             respond_to do |format|
                 format.pdf do
@@ -83,7 +84,7 @@ class ReportsController < ApplicationController
                     header: {html: {template: 'reports/_header'}},
                     footer: {html: {template: 'reports/_footer'}},
                     show_as_html: true,
-                    margin:  {  top:               42,         # default 10 (mm)
+                    margin:  {  top:               82,         # default 10 (mm)
                                 left:              0,#16,
                                 right:            0})#20})
     
