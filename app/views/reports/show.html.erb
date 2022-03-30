@@ -87,11 +87,11 @@
                 <!-- <h3 class="blue-text"><%= report.summary.to_s %></h3>
                 <br> -->
                 <h3 class="blue-text bold-text">Description of the project:</h3>
-                <p><%= report.description.to_s %></p>
+                <p><%= simple_format report.description.to_s %></p>
                 <br>
                 <br>
                 <h3 class="blue-text bold-text">Services provided:</h3>
-                <p><%= report.scope_of_services.to_s %></p>
+                <p><%= simple_format report.scope_of_services.to_s %></p>
             </div>
             
         </div>

@@ -64,7 +64,7 @@
                         <tr>
                             <td style="width: 212px;"><%= report.project_name.to_s %></td>
                             <td style="width: 180px;"><%= report.region_location.to_s %></td>
-                            <td style="width: 410px;"><%= report.description.to_s %></td>
+                            <td style="width: 410px;"><%= simple_format report.description.to_s %></td>
                             <td style="width: 143px;"><%= report.project_value_us.to_s %></td>
                             <td style="width: 133px;"><%= report.contract.to_s %></td>
                             <td style="width: 70px;"><%= year_text %></td>
