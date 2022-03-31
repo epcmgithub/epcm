@@ -27,7 +27,6 @@ class ReportsController < ApplicationController
         end
     end
     def connect_google_sheets
-        byebug
         credentials = @authorizer.get_credentials @user_id
         if credentials.nil?       
             url = @authorizer.get_authorization_url base_url: ENV['OOB_URI']
