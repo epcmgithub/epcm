@@ -11,7 +11,7 @@ class ReportsController < ApplicationController
             end
         end
         if @credentials.present?
-            redirect_to connect_google_sheets_path if @credentials.expires_at < Time.now
+            redirect_to connect_google_sheets_path and return if @credentials.expires_at < Time.now
             service = Google::Apis::SheetsV4::SheetsService.new
             service.client_options.application_name = ENV['APPLICATION_NAME']
             service.authorization = @credentials
@@ -27,6 +27,7 @@ class ReportsController < ApplicationController
         end
     end
     def connect_google_sheets
+        byebug
         credentials = @authorizer.get_credentials @user_id
         if credentials.nil?       
             url = @authorizer.get_authorization_url base_url: ENV['OOB_URI']

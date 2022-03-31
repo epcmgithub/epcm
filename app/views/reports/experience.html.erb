@@ -53,6 +53,7 @@
                         <th style="width: 133px;">Contract</th>
                         <th style="width: 70px;">Year</th>
                     <tr>
+                    
                     <% @printing_reports.each_with_index do |report, index| %>
                         <% if report.end_date.present? %>
                             <% year_text = report.start_date.to_s + " - " + report.end_date.to_s %>
