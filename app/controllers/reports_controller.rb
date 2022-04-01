@@ -11,10 +11,11 @@ class ReportsController < ApplicationController
             end
         end
         if @credentials.present?
-            redirect_to connect_google_sheets_path and return if @credentials.expires_at < Time.now
+            # redirect_to connect_google_sheets_path and return if @credentials.expires_at < Time.now
             service = Google::Apis::SheetsV4::SheetsService.new
             service.client_options.application_name = ENV['APPLICATION_NAME']
             service.authorization = @credentials
+            service.authorization.refresh! unless service.authorization.expired?
             range = "Copy of Master!A2:Z"
             response = service.get_spreadsheet_values ENV['spreadsheet_id'], range
             @@reports = []
