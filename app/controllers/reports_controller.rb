@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+    respond_to :docx
     before_action :authenticate_user!
     before_action :set_authorizer
     before_action :set_printing_reports, only: [:download_experience, :download_report]
@@ -49,52 +50,60 @@ class ReportsController < ApplicationController
     end
 
     def download_report
-        if params[:download_type] == 'reports'
-            respond_to do |format|
-                format.pdf do
-                    @pdf = render_to_string(
-                    pdf: "file_name.pdf",
-                    template: "reports/show.html.erb",
-                    #locals:  {report: @@reports.first},
-                    layout: 'pdf.html.erb',
-                    page_size: 'Letter',
-                    # header: {html: {template: 'reports/_header'}},
-                    footer: {html: {template: 'reports/_footer'}},
-                    show_as_html: true,
-                    margin:  {  top:               0,                     # default 10 (mm)
-                                left:              0,
-                                right:             0})
-    
-                    send_data(@pdf, filename: "projects_report.pdf")
-                end
-                format.html do 
-                    render "reports/show.html.erb"
-                end
-            end
-        elsif params[:download_type] == 'experience'
-            respond_to do |format|
-                format.pdf do
-                    @pdf = render_to_string(
-                    pdf: "file_name.pdf",
-                    template: "reports/experience.html.erb",
-                    #locals:  {report: @@reports.first},
-                    layout: 'pdf.html.erb',
-                    page_size: 'A4',
-                    orientation: 'Landscape',
-                    header: {html: {template: 'reports/_header'}},
-                    footer: {html: {template: 'reports/_footer'}},
-                    show_as_html: true,
-                    margin:  {  top:               42,         # default 10 (mm)
-                                left:              0,#16,
-                                right:            0})#20})
-    
-                    send_data(@pdf, filename: "previous_project_experiences.pdf")
-                end
-                format.html do 
-                    render "reports/show.html.erb"
-                end
+        respond_to do |format|
+            @objects = ["1","2","3"]
+            format.docx do
+            #     render docx: 'my_view', filename: 'my_file.docx'
+            # end
+            respond_with(@object, filename: 'my_file.docx', word_template: 'coder.ott')
             end
         end
+        # if params[:download_type] == 'reports'
+        #     respond_to do |format|
+        #         format.pdf do
+        #             @pdf = render_to_string(
+        #             pdf: "file_name.pdf",
+        #             template: "reports/show.html.erb",
+        #             #locals:  {report: @@reports.first},
+        #             layout: 'pdf.html.erb',
+        #             page_size: 'Letter',
+        #             # header: {html: {template: 'reports/_header'}},
+        #             footer: {html: {template: 'reports/_footer'}},
+        #             show_as_html: true,
+        #             margin:  {  top:               0,                     # default 10 (mm)
+        #                         left:              0,
+        #                         right:             0})
+    
+        #             send_data(@pdf, filename: "projects_report.pdf")
+        #         end
+        #         format.html do 
+        #             render "reports/show.html.erb"
+        #         end
+        #     end
+        # elsif params[:download_type] == 'experience'
+        #     respond_to do |format|
+        #         format.pdf do
+        #             @pdf = render_to_string(
+        #             pdf: "file_name.pdf",
+        #             template: "reports/experience.html.erb",
+        #             #locals:  {report: @@reports.first},
+        #             layout: 'pdf.html.erb',
+        #             page_size: 'A4',
+        #             orientation: 'Landscape',
+        #             header: {html: {template: 'reports/_header'}},
+        #             footer: {html: {template: 'reports/_footer'}},
+        #             show_as_html: true,
+        #             margin:  {  top:               42,         # default 10 (mm)
+        #                         left:              0,#16,
+        #                         right:            0})#20})
+    
+        #             send_data(@pdf, filename: "previous_project_experiences.pdf")
+        #         end
+        #         format.html do 
+        #             render "reports/show.html.erb"
+        #         end
+        #     end
+        # end
     end
 
     private

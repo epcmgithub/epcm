@@ -12,7 +12,7 @@
 	</div>
     <div class="row">
         <div class="col-md-4 offset-md-4" >
-			<%= form_tag '/download_report.pdf' , method: :get do |form| %>
+			<%= form_tag '/download_report.docx' , method: :get do |form| %>
 				<%#= text_field_tag :tags, '' , class: "form-control" %>
 				<%= hidden_field_tag :download_type, "" %>
 				<%= select_tag "tags", options_for_select(@found_tags) , class: "tags", multiple: true %>

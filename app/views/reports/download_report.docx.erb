@@ -1,0 +1,36 @@
+
+<% @printing_reports.each_with_index do |report, index| %>
+    <div class="<%=index > 0 ? '-page-break' : ''%>"></div>
+    <h1>Engineering and Architectural Services for BP Retail Sites</h1>
+    <table>
+        <tr>
+            <td><h2>Client</h2></td>
+            <td><h6><%= report.client.to_s %></h6></td>
+            <td><h2>Client Details</h2></td>
+            <td><h6><%= report.client_contact_details.to_s %></h6</td>
+        </tr>
+        <tr>
+            <td><h2>Location</h2></td>
+            <td><h6><%= report.region_location.to_s %></h6</td>
+            <td><h2>Start and completion date</h2></td>
+            <td><h6><%= report.start_date.to_s + "-" + report.end_date.to_s%></h6</td>
+        </tr>
+        <tr>
+            <td><h2>Project Value USD</h2></td>
+            <td><h6><%= report.project_value_us.to_s %></h6</td>
+            <td><h2>Project Value ZAR</h2></td>
+            <td><h6><%= report.project_value_zar %></h6</td>
+        </tr>
+        <tr>
+            <td><h2>Contract Value USD</h2></td>
+            <td><h6><%= report.contract_value_us.to_s %></h6</td>
+            <td><h2>Contract Value ZAR</h2></td>
+            <td><h6><%= report.contract_value_zar.to_s %></h6</td>
+        </tr>
+    </table>
+    <br>
+    <h4>Description of the project:</h4>
+    <h5><%= simple_format report.description.to_s %></h5>
+    <h4>Services provided:</h4>
+    <h5><%= simple_format report.scope_of_services.to_s %></h5>
+<% end %>
