@@ -7,6 +7,9 @@ end
 
 
 ruby '2.5.0'
+gem 'htmltoword'
+gem 'caracal'
+gem 'caracal-rails'
 gem 'google-api-client', '~> 0.11.1'
 gem "dotenv-rails"
 gem 'wicked_pdf'

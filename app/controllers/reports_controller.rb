@@ -50,14 +50,15 @@ class ReportsController < ApplicationController
     end
 
     def download_report
-        respond_to do |format|
-            @objects = ["1","2","3"]
-            format.docx do
-            #     render docx: 'my_view', filename: 'my_file.docx'
+        # respond_to do |format|
+            # @objects = ["1","2","3"]
+            # format.docx do
+            #     respond_with(@object, filename: 'my_file.docx', word_template: 'coder.ott')
             # end
-            respond_with(@object, filename: 'my_file.docx', word_template: 'coder.ott')
+            respond_to do |format|
+                format.docx { headers["Content-Disposition"] = "attachment; filename=\"caracal.docx\"" }
             end
-        end
+        # end
         # if params[:download_type] == 'reports'
         #     respond_to do |format|
         #         format.pdf do

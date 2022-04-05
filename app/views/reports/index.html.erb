@@ -13,14 +13,13 @@
     <div class="row">
         <div class="col-md-4 offset-md-4" >
 			<%= form_tag '/download_report.docx' , method: :get do |form| %>
-				<%#= text_field_tag :tags, '' , class: "form-control" %>
 				<%= hidden_field_tag :download_type, "" %>
 				<%= select_tag "tags", options_for_select(@found_tags) , class: "tags", multiple: true %>
 				<small class="form-text text-muted">Separate tags with a comma, space bar, or enter key.</small>
 				<br>
 				<%= button_tag "Download Reports" , class: "btn btn-primary" , id: "reports-btn"%>
 				<br>
-				<%= button_tag "Download Experience" , class: "btn btn-primary", id: "experience-btn" %>
+				<%#= button_tag "Download Experience" , class: "btn btn-primary", id: "experience-btn" %>
 			<% end %>
         </div>
     </div>
