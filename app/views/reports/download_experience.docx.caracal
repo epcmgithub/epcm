@@ -52,7 +52,7 @@ current_lines = 3
     else
         text_lines = 2
     end
-    if text_lines + current_lines > 22
+    if text_lines + current_lines > 24
         current_lines = 0
         docx.page
         data = Base64.encode64(File.read('public/logo.png'))
@@ -83,8 +83,8 @@ current_lines = 3
         cell_style cols[5],    style: "TableText"
         end
     else
-        current_lines += text_lines
-        current_lines += 1 if text_lines < 4
+        current_lines += text_lines + 2
+        #current_lines += 1 if text_lines < 4
         row2 = [report.project_name, report.region_location, report.summary, report.project_value_us, report.contract_value_us, report.start_date]
         #row2 = ['Location', report.region_location.to_s, 'Start & End', report.start_date.to_s + "-" + report.end_date.to_s]
         #row3 = ['Project Value (USD)', report.project_value_us.to_s, 'Contract Value (USD)', report.project_value_us.to_s]
