@@ -17,9 +17,10 @@
 				<%= select_tag "tags", options_for_select(@found_tags) , class: "tags", multiple: true %>
 				<small class="form-text text-muted">Separate tags with a comma, space bar, or enter key.</small>
 				<br>
-				<%= button_tag "Download Reports" , class: "btn btn-primary" , id: "reports-btn"%>
+				<%#= button_tag "Download Reports" , class: "btn btn-primary" , id: "reports-btn"%>
+				<input type="button" class="btn btn-primary" id="reports-btn" value="Download Reports">
 				<br>
-				<%#= button_tag "Download Experience" , class: "btn btn-primary", id: "experience-btn" %>
+				<input type="button" class="btn btn-primary" id="experience-btn" value="Download Experience">
 			<% end %>
         </div>
     </div>
@@ -31,9 +32,13 @@
 	$(".tags").select2({});
 
 	$("#reports-btn").click(function(){
+		$('form').attr('action', '/download_report.docx');
 		$("#download_type").val("reports");
+		$('form').submit();
 	});
 	$("#experience-btn").click(function(){
+		$('form').attr('action', '/download_experience.docx');
 		$("#download_type").val("experience");
+		$('form').submit();
 	});
 </script>
