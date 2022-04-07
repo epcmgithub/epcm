@@ -8,9 +8,11 @@ docx.page_margins do
   top     475    # sets the top margin. units in twips.
   bottom  115    # sets the bottom margin. units in twips.
 end
-docx.style id: 'ProjectName', name: 'Heading 1', font: 'Verdana' , size: 28
+
+docx.style id: 'ProjectName', name: 'Heading 1', font: 'Verdana' , size: 26
 docx.style id: 'TableText', name: 'Heading 2', font: 'Verdana' , size: 16
 docx.style id: 'DescriptionText', name: 'Heading 3', font: 'Verdana' , size: 18
+docx.style id: 'Summary', name: 'Heading 4', font: 'Verdana' , size: 18
 
 @printing_reports.each_with_index do |report, index|
     docx.page if index > 0
@@ -27,14 +29,23 @@ docx.style id: 'DescriptionText', name: 'Heading 3', font: 'Verdana' , size: 18
     docx.p
 
     row1 = ['Client', report.client.to_s, 'Client Details', report.client_contact_details.to_s]
-    row2 = ['Location', report.region_location.to_s, 'Start & Completion Date', report.start_date.to_s + "-" + report.end_date.to_s]
-    row3 = ['Project Value USD', report.project_value_us.to_s, 'Project Value ZAR', report.project_value_zar]
-    row4 = ['Contract Value USD', report.contract_value_us.to_s, 'Contract Value ZAR', report.contract_value_zar.to_s]
-    docx.table [row1.dup, row2.dup, row3.dup, row4.dup] do
+    row2 = ['Location', report.region_location.to_s, 'Start & End', report.start_date.to_s + "-" + report.end_date.to_s]
+    row3 = ['Project Value (USD)', report.project_value_us.to_s, 'Contract Value (USD)', report.project_value_us.to_s]
+    #row4 = ['Contract Value USD', report.contract_value_us.to_s, 'Contract Value ZAR', report.contract_value_zar.to_s]
+    docx.table [row1.dup, row2.dup, row3.dup] do
     cell_style cols[0],    style: "TableText", bold: true, color: '2C5075'
     cell_style cols[1],    style: "TableText"
     cell_style cols[2],    style: "TableText", bold: true, color: '2C5075'
     cell_style cols[3],    style: "TableText"
+    end
+
+    if report.summary.to_s.present?
+      docx.p
+      docx.p report.summary.to_s do 
+        style 'Summary'
+        color '2C5075'
+        align :left
+      end
     end
 
     docx.p
@@ -44,10 +55,12 @@ docx.style id: 'DescriptionText', name: 'Heading 3', font: 'Verdana' , size: 18
     bold true
     color '2C5075'
     end
-
-    docx.p (report.description.to_s) do 
-    style 'DescriptionText'
-    align :left
+    description_parts = report.description.to_s.gsub("\n\n", "\n").split("\n")
+    description_parts.each do |single_line|
+      docx.p single_line do 
+        style 'DescriptionText'
+        align :left
+      end
     end
 
     docx.p
@@ -58,8 +71,11 @@ docx.style id: 'DescriptionText', name: 'Heading 3', font: 'Verdana' , size: 18
     color '2C5075'
     end
 
-    docx.p (report.scope_of_services.to_s) do 
-    style 'DescriptionText'
-    align :left
+    services_parts = report.scope_of_services.to_s.gsub("\n\n", "\n").split("\n")
+    services_parts.each do |single_line|
+      docx.p single_line do 
+        style 'DescriptionText'
+        align :left
+      end
     end
 end
