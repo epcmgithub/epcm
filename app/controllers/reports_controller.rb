@@ -16,7 +16,13 @@ class ReportsController < ApplicationController
             service = Google::Apis::SheetsV4::SheetsService.new
             service.client_options.application_name = ENV['APPLICATION_NAME']
             service.authorization = @credentials
-            service.authorization.refresh! unless service.authorization.expired?
+            if service.authorization.expired?
+                begin
+                    service.authorization.refresh!
+                rescue => exception
+                    redirect_to connect_google_sheets_path and return
+                end
+            end
             range = "Copy of Master!A2:Z"
             response = service.get_spreadsheet_values ENV['spreadsheet_id'], range
             @@reports = []
