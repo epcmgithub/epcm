@@ -46,13 +46,13 @@ current_lines = 3
         end
     end
     
-    greater_text = report.project_name.to_s.size > report.summary.to_s.size ? report.project_name.to_s : report.summary.to_s
-    if greater_text.present?
-        text_lines = greater_text.to_s.size / 50
-    else
-        text_lines = 2
-    end
-    if text_lines + current_lines > 24
+    text_lines = report.project_name.to_s.size > report.summary.to_s.size ? report.project_name.to_s.size / 25 : report.summary.to_s.size / 50
+    # if greater_text.present?
+    #     text_lines = greater_text.to_s.size / 50
+    # else
+    #     text_lines = 2
+    # end
+    if text_lines + current_lines > 22
         current_lines = 0
         docx.page
         data = Base64.encode64(File.read('public/logo.png'))
