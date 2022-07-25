@@ -6,11 +6,11 @@ git_source(:github) do |repo_name|
 end
 
 
-ruby '2.5.0'
+ruby '3.0.0'
 gem 'htmltoword'
 gem 'caracal'
 gem 'caracal-rails'
-gem 'google-api-client', '~> 0.11.1'
+gem 'google-api-client', '~> 0.53.0'
 gem "dotenv-rails"
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary-edge', '~> 0.12.6.0'
